@@ -16,7 +16,7 @@ This R function implements an XGBoost-based classification pipeline, including f
 | `seed`          | Integer           | Random seed for reproducibility. |
 | `top`           | Integer           | Number of top features to retain in feature reduction. |
 | `df.matrix`     | DataFrame         | Data matrix with omics features (columns) and samples (rows). |
-| `panel`         | String            | Column name on the metadata that is going to be analyzed (e.g., "PreACLF"). |
+| `panel`         | String            | Column name on the metadata of the feature that is going to be analyzed (e.g., "PreACLF"). |
 | `nfolds`        | Integer           | Number of folds for cross-validation. |
 | `fecal.features` | Character Vector  | List of microbiome-related features. |
 | `plasma.features` | Character Vector  | List of host-related features. |
