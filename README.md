@@ -15,7 +15,7 @@ This R function implements an XGBoost-based classification pipeline, including f
 | `feature`       | DataFrame         | Target labels for classification. |
 | `seed`          | Integer           | Random seed for reproducibility. |
 | `top`           | Integer           | Number of top features to retain in feature reduction. |
-| `df.matrix`     | DataFrame         | Data matrix with omics features (columns) and samples (rows). |
+| `df.matrix`     | DataFrame         | Data matrix with omics features (columns) and samples (rows). **Note:** each feature must be prefixed with its corresponding omic type (e.g.,"Proteomics.P10643")|
 | `panel`         | String            | Column name on the metadata of the feature that is going to be analyzed (e.g., "PreACLF"). |
 | `nfolds`        | Integer           | Number of folds for cross-validation. |
 | `fecal.features` | Character Vector  | List of microbiome-related features. |
@@ -53,10 +53,10 @@ The function returns a list of outputs covering model performance, predictions, 
 
 ```r
 result <- xgboost_AUC(
-  omics = c("Microbiome", "Host"),
+  omics =  c("Proteomics","Metabolomics","Microbiome", "Host"),
   feature = feature_df,
-  seed = 42,
-  top = 10,
+  seed = 123,
+  top = 15,
   df.matrix = df_matrix,
   panel = "PreACLF",
   nfolds = 10,
@@ -138,10 +138,10 @@ The function performs the following steps:
 ```r
 # Load trained XGBoost model
 result <- xgboost_AUC(
-  omics = c("Microbiome", "Host"),
+  omics = c("Proteomics","Metabolomics","Microbiome", "Host"),
   feature = feature_df,
-  seed = 42,
-  top = 10,
+  seed = 123,
+  top = 15,
   df.matrix = df_matrix,
   panel = "PreACLF",
   nfolds = 10,
