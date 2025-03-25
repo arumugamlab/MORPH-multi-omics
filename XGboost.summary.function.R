@@ -1,4 +1,4 @@
-xgboost.plots <- function(xgboost.object = xgboost.object, top = top) {
+xgboost_eval <- function(xgboost.object, top) {
   
   # Function to generate performance plots for an XGBoost model
   # INPUT:
