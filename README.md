@@ -170,6 +170,7 @@ Result.plots <- xgboost_eval(xgboost.object = result, top = 10)
 result$AUC.top.feature.curve
 ```
 
-
+# Acknowledgement
+This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 825694 (MICROB-PREDICT).
 
 
