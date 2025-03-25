@@ -1,13 +1,25 @@
 # MORPH-multi-omics
-Multi-Omics for Relationships in Phenotypes and Health (MORPH)
+Multi-Omics for Relationships in Phenotypes and Health (MORPH) workflow provides a user-friendly and easy option to perform disease association and disease biomarker analysis from multi-omics data using `R`.
 
-# XGBoost AUC Function: 
+# 1. Biomarker discovery
 
-## Overview
+We use the [XGBoost](https://doi.org/10.1145/2939672.2939785) machine learning algorithm to derive compact biomarker sets for a given phenotype. We typically set aside a test set, and tune hyperparameters using `n` times `n`-fold cross-validation on the training set. Once the final hyperparameter set is selected, the optimal model is then evaluated on the test set -- once and only once. Here are the `R` functions that help you with that.
+
+## Training XGBoost model with `xgboost_train()`
+
+### Overview
 
 This R function implements an XGBoost-based classification pipeline, including feature reduction and performance evaluation via cross-validation. It supports multiple omics datasets and outputs a range of performance metrics and model details.
 
-## Inputs
+### Dependencies
+
+Ensure these packages are installed:
+
+```r
+install.packages(c("dplyr", "xgboost", "caret", "pROC", "Metrics", "reshape2", "ggplot2", "xpectr"))
+```
+
+### Inputs
 
 | Parameter        | Type              | Description |
 |-----------------|------------------|-------------|
@@ -22,7 +34,7 @@ This R function implements an XGBoost-based classification pipeline, including f
 | `plasma.features` | Character Vector  | List of host-related features. |
 | `metadata`      | DataFrame         | Metadata containing sample IDs and feature of interest. |
 
-## Outputs
+### Outputs
 
 The function returns a list of outputs covering model performance, predictions, and feature importance:
 
@@ -49,10 +61,10 @@ The function returns a list of outputs covering model performance, predictions, 
 | `train.labels.ID.out`           | List (Vectors) | Training set sample IDs per fold. |
 | `val.labels.ID.out`             | List (Vectors) | Validation set sample IDs per fold. |
 
-## Example Usage
+### Example Usage
 
 ```r
-result <- xgboost_AUC(
+result <- xgboost_train(
   omics =  c("Proteomics","Metabolomics","Microbiome", "Host"),
   feature = feature_df,
   seed = 123,
@@ -72,28 +84,29 @@ result$feature.importance.list # Feature importance for full models
 result$feature.importance.list.top # Feature importance for top models
 ```
 
-## Dependencies
+
+## 2. Evaluating a trained XGBoost model with `xgboost_eval()`
+
+### Overview
+
+This R function  `xgboost_eval()` generates performance plots for a trained XGBoost model and outputs relevant performance metrics and visualizations.
+
+### Dependencies
 
 Ensure these packages are installed:
 
 ```r
-install.packages(c("dplyr", "xgboost", "caret", "pROC", "Metrics", "reshape2", "ggplot2", "xpectr"))
+install.packages(c("ggplot2", "reshape2", "dplyr", "ComplexUpset", "stringr", "ggrepel"))
 ```
 
-# XGBoost summary Function
-
-## Overview
-
-This R function  `xgboost.plots`, = generates performance plots for a trained XGBoost model and outputs relevant performance metrics and visualizations.
-
-## Inputs
+### Inputs
 
 | Parameter       | Type                  | Description |
 |-----------------|-----------------------|-------------|
-| `xgboost.object` | Output of XGBoost_AUC | A trained XGBoost model with AUC values and feature importance information. |
+| `xgboost.object` | Output of `xgboost_train()` | A trained XGBoost model with AUC values and feature importance information. |
 | `top`           | Integer               | Number of top features to include in visualizations. |
 
-## Outputs
+### Outputs
 
 | Output                          | Type            | Description |
 |---------------------------------|-----------------|-------------|
@@ -109,7 +122,7 @@ This R function  `xgboost.plots`, = generates performance plots for a trained XG
 | `AUC.all.top`                   | DataFrame       | Melted data frame of AUC values across top models and features. |
 | `cvAUC.list.melt`               | DataFrame       | Refined data frame of AUC values with features reordered for visualization. |
 
-## Summary Code Breakdown
+### Summary Code Breakdown
 
 The function performs the following steps:
 
@@ -133,11 +146,11 @@ The function performs the following steps:
 
 
 
-## Example Usage
+### Example Usage
 
 ```r
 # Load trained XGBoost model
-result <- xgboost_AUC(
+result <- xgboost_train(
   omics = c("Proteomics","Metabolomics","Microbiome", "Host"),
   feature = feature_df,
   seed = 123,
@@ -151,19 +164,12 @@ result <- xgboost_AUC(
 )
 
 # Generate performance plots for top 10 features
-Result.plots <- xgboost.plots(xgboost.object = result, top = 10)
+Result.plots <- xgboost_eval(xgboost.object = result, top = 10)
 
 # Access AUC plot
 result$AUC.top.feature.curve
 ```
 
-## Dependencies
-
-Ensure these packages are installed:
-
-```r
-install.packages(c("ggplot2", "reshape2", "dplyr", "ComplexUpset", "stringr", "ggrepel"))
-```
 
 
 
