@@ -11,7 +11,7 @@ library(xpectr)
 
 
 
-xgboost_AUC <- function(omics, feature, seed = seed, top = top, df.matrix = df.matrix, panel=panel, nfolds = nfolds, fecal.features = fecal.features, plasma.features = plasma.features, metadata = metadata) {
+xgboost_train <- function(omics, feature, seed = 1234, top = 10, df.matrix, panel, nfolds = 5, fecal.features, plasma.features, metadata) {
   
   
   # Function to generate performance plots for an XGBoost model
