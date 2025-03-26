@@ -203,7 +203,7 @@ install.packages(c("dplyr", "ggplot2", "ggrepel", "stringr"))
 ### Example Usage
 ```r
 
-Result.associations <- associationsFunction(
+Result.associations <- associations_Function(
     df.matrix = df.matrix,
     metadata = metadata,
     feature="steatosis_numeric",
