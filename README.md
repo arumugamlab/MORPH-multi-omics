@@ -85,7 +85,7 @@ result$feature.importance.list.top # Feature importance for top models
 ```
 
 
-## 2. Evaluating a trained XGBoost model with `xgboost_eval()`
+## Evaluating a trained XGBoost model with `xgboost_eval()`
 
 ### Overview
 
@@ -169,11 +169,15 @@ Result.plots <- xgboost_eval(xgboost.object = result, top = 10)
 # Access AUC plot
 result$AUC.top.feature.curve
 ```
-## 3. Association Analysis with  `associations_Function()`
+# 2. Disease association
+
+We generate linear regression models for associating multi-omic features to a given phenotype. This analysis will correct for (i) confounding factors to identify unbiased associations and (ii) multiple hypothesis testing by controlling False Discovery Rate. Here is the `R` function that helps you with that.
+
+## Phenotype-omics associations using `lin_reg_associate()`
 
 ### Overview
 
-This R function `associations_Function()` perform association analysis between omics data and clinical outputs, correcting by given cofounders. The function applies linear regression models and corrects for multiple testing, providing summary statistics and visualization plots.
+This R function `lin_reg_associate()` perform association analysis between omics data and clinical outputs, correcting by given confounders. The function applies linear regression models and corrects for multiple testing, providing summary statistics and visualization plots.
 
 ### Dependencies
 
@@ -203,7 +207,7 @@ install.packages(c("dplyr", "ggplot2", "ggrepel", "stringr"))
 ### Example Usage
 ```r
 
-Result.associations <- associations_Function(
+Result.associations <- lin_reg_associate(
     df.matrix = df.matrix,
     metadata = metadata,
     feature="steatosis_numeric",
