@@ -60,9 +60,9 @@ associations_Function <- function(df.matrix, metadata, feature, confounders) {
     rownames(name.df.feature.scale) <- rownames(name.df.feature)
     
     # Apply linear models
-    lm.out <- apply(name.df.feature.scale[, -(1:length(confounders)+1)], 2, function(x) {
+    lm.out <- apply(name.df.feature.scale[, -(1:(length(confounders)+1))], 2, function(x) {
       ## Create a data frame including confounders and clinical feature of interest
-      df <- data.frame(Feature = x, name.df.feature.scale[, 1:length(confounders)+1]) 
+      df <- data.frame(Feature = x, name.df.feature.scale[, 1:(length(confounders)+1)]) 
       summary(lm(Feature ~ ., data = df))
     })
     
