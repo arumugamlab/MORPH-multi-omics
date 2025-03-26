@@ -71,13 +71,14 @@ associations_Function <- function(df.matrix, metadata, feature, confounders) {
     lm.df <- as.data.frame(do.call("rbind", lm.out))
     colnames(lm.df)[4] <- "p.val"
     lm.df$omic <- name
-    
+    lm.df$feature<-str_split_fixed( row.names(lm.df) , "\\.", 2)[,2]
+                     
     df.list[[name]] <- lm.df
   }
   
   # Combine results and adjust for multiple testing
   df.feature.omics <- do.call("rbind", df.list)
-  df.feature.omics$feature <- str_split_fixed(rownames(df.feature.omics), "\\.", 2)[,2]
+  row.names(df.feature.omics)<-str_split_fixed(row.names(df.feature.omics), "\\.",2)[,2]
   df.feature.omics$p.adjust <- p.adjust(df.feature.omics$p.val, method = "fdr")
   
   # Filter significant results
@@ -128,8 +129,7 @@ associations_Function <- function(df.matrix, metadata, feature, confounders) {
   label<-label.df$value
   
   
-  df.feature.omics$label<-ifelse(df.feature.omics$omic.feature %in% label, df.feature.omics$omic.feature,NA)
-  df.feature.omics$label<-str_split_fixed(df.feature.omics$label, "\\.",2)[,2]
+  df.feature.omics$label<-ifelse(df.feature.omics$omic.feature %in% label, df.feature.omics$feature,NA)
   
   # Edit label name
   df.feature.omics$label<-str_remove_all(df.feature.omics$label,"_Relative Amount")
