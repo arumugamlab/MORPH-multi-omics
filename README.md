@@ -169,6 +169,53 @@ Result.plots <- xgboost_eval(xgboost.object = result, top = 10)
 # Access AUC plot
 result$AUC.top.feature.curve
 ```
+## 3. Association Analysis with  `associations_Function()`
+
+### Overview
+
+This R function `associations_Function()` perform association analysis between omics data and clinical outputs, correcting by given cofounders. The function applies linear regression models and corrects for multiple testing, providing summary statistics and visualization plots.
+
+### Dependencies
+
+Ensure these packages are installed:
+
+```r
+install.packages(c("dplyr", "ggplot2", "ggrepel", "stringr"))
+```
+
+### Inputs
+
+| Parameter                          | Type         | Description |
+|---------------------------------|-----------------|-------------|
+| `df.matrix`                     | DataFrame     | Data matrix with omics features (columns) and samples (rows). **Note:** each feature must be prefixed with its corresponding omic type (e.g.,"Proteomics.P10643") |
+| `metadata`                      | DataFrame     | Contains clinical information related to the samples. |
+| `Feature`                       | String        |The column name in the metadata representing the clinical feature of interest. Note: The feature must be a numeric variable (e.g., "steatosis_numeric").|
+| `confounders`                   | Vector (String)   |A vector containing the column names in the metadata for the variables to be used as confounders.|
+
+### Outputs
+
+| Outputs                         | Type            | Description |
+|---------------------------------|-----------------|-------------|
+| `df.feature.omics`              | DataFrame    | Data frame with the linear model association results between omics features and the  clinical feature of interest. |
+| `plot.pval`                     | ggplot object   | A scatter plot displaying the p-adjusted values of the associations stratified by omic.|
+| `plot.volcanoPlot`              | ggplot object   |A volcano plot visualizing the effect size and significance of associations, colored by omic|
+
+### Example Usage
+```r
+
+Result.associations <- associationsFunction(
+    df.matrix = df.matrix,
+    metadata = metadata,
+    feature="steatosis_numeric",
+    confounders=c("Age","BMI","gender")
+    )
+
+# Display results
+print(Result.associations$df.feature.omics)
+print(Result.associations$plot.pval)
+print(Result.associations$plot.volcanoPlot)
+
+```
 
 # Acknowledgement
 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 825694 (MICROB-PREDICT).
