@@ -3,12 +3,12 @@ library(ggplot2)
 library(ggrepel)
 library(stringr)
 
-# Function: associations_Function
+# Function: lin_reg_associate
 # This function performs an association analysis between omics data and clinical outcomes,
 # correcting for specified confounders. It applies linear regression models, corrects for multiple testing,
 # and provides summary statistics along with visualization plots.
 
-associations_Function <- function(df.matrix, metadata, feature, confounders) {
+lin_reg_associate <- function(df.matrix, metadata, feature, confounders) {
   
   # Check for missing inputs
   if (missing(df.matrix) || missing(metadata) || missing(feature) || missing(confounders)) {
