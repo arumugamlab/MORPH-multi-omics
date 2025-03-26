@@ -188,7 +188,7 @@ install.packages(c("dplyr", "ggplot2", "ggrepel", "stringr"))
 | Parameter                          | Type         | Description |
 |---------------------------------|-----------------|-------------|
 | `df.matrix`                     | DataFrame     | Data matrix with omics features (columns) and samples (rows). **Note:** each feature must be prefixed with its corresponding omic type (e.g.,"Proteomics.P10643") |
-| `metadata`                      | DataFrame     | Contains clinical information related to the samples. |
+| `metadata`                      | DataFrame     | Contains clinical information related to the samples. **Note:** make sure column with sample ID is named as "SampleID"|
 | `Feature`                       | String        |The column name in the metadata representing the clinical feature of interest. Note: The feature must be a numeric variable (e.g., "steatosis_numeric").|
 | `confounders`                   | Vector (String)   |A vector containing the column names in the metadata for the variables to be used as confounders.|
 
